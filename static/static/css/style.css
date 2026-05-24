@@ -478,6 +478,24 @@ mark.sold-out {
     align-items: start;
 }
 
+.simple-page {
+    min-height: 62vh;
+    padding: clamp(64px, 10vw, 120px) clamp(20px, 5vw, 70px);
+    background: var(--paper);
+}
+
+.simple-page h1 {
+    max-width: 900px;
+    font-size: clamp(3rem, 6vw, 5.8rem);
+}
+
+.simple-page p:not(.eyebrow) {
+    max-width: 760px;
+    color: var(--muted);
+    font-size: 1.16rem;
+    line-height: 1.7;
+}
+
 .visit-copy {
     max-width: 700px;
 }

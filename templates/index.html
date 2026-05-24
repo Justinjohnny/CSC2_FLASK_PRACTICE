@@ -1,210 +1,185 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Bloom & Stem Flowers</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='static/css/style.css') }}">
-</head>
-<body>
-    <header class="site-header">
-        <a class="brand" href="#home" aria-label="Bloom and Stem home">
-            <span class="brand-mark">B</span>
-            <span>Bloom &amp; Stem</span>
-        </a>
-        <nav class="main-nav" aria-label="Main navigation">
-            <a href="#flowers">Flowers</a>
-            <a href="#addons">Add-ons</a>
-            <a href="#occasions">Occasions</a>
-            <a href="#visit">Visit</a>
-        </nav>
-    </header>
+{% extends "base.html" %}
 
-    <main id="home">
-        <section class="hero">
-            <div class="hero-copy">
-                <p class="eyebrow">Fresh stems, wrapped with care</p>
-                <h1>Bloom &amp; Stem</h1>
-                <p class="hero-text">
-                    A bright local flower studio for everyday bouquets, thoughtful gifts,
-                    and last-minute table flowers that still feel beautifully considered.
-                </p>
-                <div class="hero-actions">
-                    <a class="button primary" href="#flowers">Shop flowers</a>
-                    <a class="button secondary" href="#visit">Plan a pickup</a>
+{% block title %}Bloom &amp; Stem Flowers{% endblock %}
+
+{% block content %}
+<section class="hero">
+    <div class="hero-copy">
+        <p class="eyebrow">Fresh stems, wrapped with care</p>
+        <h1>Bloom &amp; Stem</h1>
+        <p class="hero-text">
+            A bright local flower studio for everyday bouquets, thoughtful gifts,
+            and last-minute table flowers that still feel beautifully considered.
+        </p>
+        <div class="hero-actions">
+            <a class="button primary" href="#flowers">Shop flowers</a>
+            <a class="button secondary" href="#visit">Plan a pickup</a>
+        </div>
+    </div>
+    <div class="hero-art" aria-hidden="true">
+        <img src="{{ url_for('static', filename='static/img/hero-bouquet.svg') }}" alt="">
+    </div>
+</section>
+
+<section class="quick-info" aria-label="Shop highlights">
+    <div>
+        <strong>Same-day pickup</strong>
+        <span>Order by 2pm for fresh daily wraps.</span>
+    </div>
+    <div>
+        <strong>Seasonal stems</strong>
+        <span>Small-batch bunches that change with the week.</span>
+    </div>
+    <div>
+        <strong>Gift ready</strong>
+        <span>Ribbon, note cards, and tidy water wraps included.</span>
+    </div>
+</section>
+
+<section class="section" id="flowers">
+    <div class="section-heading">
+        <p class="eyebrow">Current selection</p>
+        <h2>Flowers in the studio</h2>
+    </div>
+    {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            {% for message in messages %}
+                <div class="flash-message" role="status">
+                    {{ message }}
                 </div>
-            </div>
-            <div class="hero-art" aria-hidden="true">
-                <img src="{{ url_for('static', filename='static/img/hero-bouquet.svg') }}" alt="">
-            </div>
-        </section>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+    <ul class="flower-data-list">
+        {% for flower, details in flowers.items() %}
+            <li>
+                {{ flower }} - ${{ '%.2f'|format(details['price']) }} (Stock: {{ details['stock'] }})
+            </li>
+        {% endfor %}
+    </ul>
+    <form class="order-form flower-order-form" action="{{ url_for('add_to_cart') }}" method="post">
+        <fieldset>
+            <legend>Select Flowers</legend>
 
-        <section class="quick-info" aria-label="Shop highlights">
-            <div>
-                <strong>Same-day pickup</strong>
-                <span>Order by 2pm for fresh daily wraps.</span>
-            </div>
-            <div>
-                <strong>Seasonal stems</strong>
-                <span>Small-batch bunches that change with the week.</span>
-            </div>
-            <div>
-                <strong>Gift ready</strong>
-                <span>Ribbon, note cards, and tidy water wraps included.</span>
-            </div>
-        </section>
-
-        <section class="section" id="flowers">
-            <div class="section-heading">
-                <p class="eyebrow">Current selection</p>
-                <h2>Flowers in the studio</h2>
-            </div>
-            {% with messages = get_flashed_messages() %}
-                {% if messages %}
-                    {% for message in messages %}
-                        <div class="flash-message" role="status">
-                            {{ message }}
-                        </div>
-                    {% endfor %}
-                {% endif %}
-            {% endwith %}
-            <ul class="flower-data-list">
+            <label for="flower">Flower</label>
+            <select name="flower" id="flower">
                 {% for flower, details in flowers.items() %}
+                    <option value="{{ flower }}">
+                        {{ flower }} - ${{ '%.2f'|format(details['price']) }}
+                    </option>
+                {% endfor %}
+            </select>
+
+            <label for="quantity">Quantity</label>
+            <input type="number" name="quantity" id="quantity" value="1" min="1">
+
+            <button type="submit">Add to cart</button>
+        </fieldset>
+    </form>
+    <div class="cart-panel">
+        <h3>Your Cart</h3>
+        {% if cart %}
+            <ul class="cart-list">
+                {% for item, details in cart.items() %}
                     <li>
-                        {{ flower }} - ${{ '%.2f'|format(details['price']) }} (Stock: {{ details['stock'] }})
+                        <span>
+                            {{ item }}: {{ '%.2f'|format(details['quantity']) }} x
+                            ${{ '%.2f'|format(details['price']) }} =
+                            ${{ '%.2f'|format(details['quantity'] * details['price']) }}
+                        </span>
+                        <a href="{{ url_for('remove_from_cart', item=item) }}">Remove</a>
                     </li>
                 {% endfor %}
             </ul>
-            <form class="order-form flower-order-form" action="{{ url_for('add_to_cart') }}" method="post">
-                <fieldset>
-                    <legend>Select Flowers</legend>
+            <h4>Total: ${{ '%.2f'|format(total) }}</h4>
+        {% else %}
+            <p>Your cart is empty.</p>
+        {% endif %}
+    </div>
+    <div class="flower-grid">
+        {% for flower, details in flowers.items() %}
+            <article class="flower-card">
+                <div class="flower-image {{ flower|lower }}" aria-hidden="true">
+                    <span></span>
+                </div>
+                <div class="flower-card-body">
+                    <div>
+                        <h3>{{ flower }}</h3>
+                        <p>{{ details['color'] }} stems</p>
+                    </div>
+                    <div class="flower-meta">
+                        <span>${{ '%.2f'|format(details['price']) }}</span>
+                        {% if details['in_stock'] %}
+                            <mark>In stock</mark>
+                        {% else %}
+                            <mark class="sold-out">Sold out</mark>
+                        {% endif %}
+                    </div>
+                </div>
+            </article>
+        {% endfor %}
+    </div>
+</section>
 
-                    <label for="flower">Flower</label>
-                    <select name="flower" id="flower">
-                        {% for flower, details in flowers.items() %}
-                            <option value="{{ flower }}">
-                                {{ flower }} - ${{ '%.2f'|format(details['price']) }}
-                            </option>
-                        {% endfor %}
-                    </select>
+<section class="section addons-section" id="addons">
+    <div class="section-heading">
+        <p class="eyebrow">Add-ons available</p>
+        <h2>Extras for your order</h2>
+    </div>
+    <ul class="addon-list">
+        {% for addon, details in addons.items() %}
+            <li>
+                <div>
+                    <strong>{{ addon }}</strong>
+                    <span>{{ details['description'] }}</span>
+                </div>
+                <span>${{ details['price'] }}</span>
+            </li>
+        {% endfor %}
+    </ul>
+</section>
 
-                    <label for="quantity">Quantity</label>
-                    <input type="number" name="quantity" id="quantity" value="1" min="1">
+<section class="occasion-band" id="occasions">
+    <div>
+        <p class="eyebrow">Made for the moment</p>
+        <h2>Choose a mood, we will arrange the stems.</h2>
+    </div>
+    <div class="occasion-list">
+        <span>Birthday</span>
+        <span>Thank you</span>
+        <span>New baby</span>
+        <span>Dinner table</span>
+        <span>Just because</span>
+    </div>
+</section>
 
-                    <button type="submit">Add to cart</button>
-                </fieldset>
-            </form>
-            <div class="cart-panel">
-                <h3>Your Cart</h3>
-                {% if cart %}
-                    <ul class="cart-list">
-                        {% for item, details in cart.items() %}
-                            <li>
-                                <span>
-                                    {{ item }}: {{ '%.2f'|format(details['quantity']) }} x
-                                    ${{ '%.2f'|format(details['price']) }} =
-                                    ${{ '%.2f'|format(details['quantity'] * details['price']) }}
-                                </span>
-                                <a href="{{ url_for('remove_from_cart', item=item) }}">Remove</a>
-                            </li>
-                        {% endfor %}
-                    </ul>
-                    <h4>Total: ${{ '%.2f'|format(total) }}</h4>
-                {% else %}
-                    <p>Your cart is empty.</p>
-                {% endif %}
-            </div>
-            <div class="flower-grid">
-                {% for flower, details in flowers.items() %}
-                    <article class="flower-card">
-                        <div class="flower-image {{ flower|lower }}" aria-hidden="true">
-                            <span></span>
-                        </div>
-                        <div class="flower-card-body">
-                            <div>
-                                <h3>{{ flower }}</h3>
-                                <p>{{ details['color'] }} stems</p>
-                            </div>
-                            <div class="flower-meta">
-                                <span>${{ '%.2f'|format(details['price']) }}</span>
-                                {% if details['in_stock'] %}
-                                    <mark>In stock</mark>
-                                {% else %}
-                                    <mark class="sold-out">Sold out</mark>
-                                {% endif %}
-                            </div>
-                        </div>
-                    </article>
+<section class="visit-section" id="visit">
+    <div class="visit-copy">
+        <p class="eyebrow">Visit the studio</p>
+        <h2>Open daily for bouquets, loose stems, and gentle advice.</h2>
+        <p>
+            Find us on Garden Lane from 9am to 5pm. Call ahead for custom colors,
+            event bunches, or a quick pickup wrap.
+        </p>
+    </div>
+    <form class="order-form" aria-label="Bouquet enquiry form">
+        <label>
+            Name
+            <input type="text" name="name" placeholder="Your name">
+        </label>
+        <label>
+            Favorite flower
+            <select name="flower">
+                {% for flower, details in featured_flowers.items() %}
+                    <option>{{ flower }}</option>
                 {% endfor %}
-            </div>
-        </section>
-
-        <section class="section addons-section" id="addons">
-            <div class="section-heading">
-                <p class="eyebrow">Add-ons available</p>
-                <h2>Extras for your order</h2>
-            </div>
-            <ul class="addon-list">
-                {% for addon, details in addons.items() %}
-                    <li>
-                        <div>
-                            <strong>{{ addon }}</strong>
-                            <span>{{ details['description'] }}</span>
-                        </div>
-                        <span>${{ details['price'] }}</span>
-                    </li>
-                {% endfor %}
-            </ul>
-        </section>
-
-        <section class="occasion-band" id="occasions">
-            <div>
-                <p class="eyebrow">Made for the moment</p>
-                <h2>Choose a mood, we will arrange the stems.</h2>
-            </div>
-            <div class="occasion-list">
-                <span>Birthday</span>
-                <span>Thank you</span>
-                <span>New baby</span>
-                <span>Dinner table</span>
-                <span>Just because</span>
-            </div>
-        </section>
-
-        <section class="visit-section" id="visit">
-            <div class="visit-copy">
-                <p class="eyebrow">Visit the studio</p>
-                <h2>Open daily for bouquets, loose stems, and gentle advice.</h2>
-                <p>
-                    Find us on Garden Lane from 9am to 5pm. Call ahead for custom colors,
-                    event bunches, or a quick pickup wrap.
-                </p>
-            </div>
-            <form class="order-form" aria-label="Bouquet enquiry form">
-                <label>
-                    Name
-                    <input type="text" name="name" placeholder="Your name">
-                </label>
-                <label>
-                    Favorite flower
-                    <select name="flower">
-                        {% for flower, details in featured_flowers.items() %}
-                            <option>{{ flower }}</option>
-                        {% endfor %}
-                    </select>
-                </label>
-                <label>
-                    Note
-                    <textarea name="note" rows="4" placeholder="Colors, occasion, pickup time"></textarea>
-                </label>
-                <button type="button">Send enquiry</button>
-            </form>
-        </section>
-    </main>
-
-    <footer class="site-footer">
-        <span>Bloom &amp; Stem Flowers</span>
-        <span>Fresh bouquets made daily.</span>
-    </footer>
-</body>
-</html>
+            </select>
+        </label>
+        <label>
+            Note
+            <textarea name="note" rows="4" placeholder="Colors, occasion, pickup time"></textarea>
+        </label>
+        <button type="button">Send enquiry</button>
+    </form>
+</section>
+{% endblock %}

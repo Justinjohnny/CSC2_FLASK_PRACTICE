@@ -45,6 +45,21 @@ def index():
     )
 
 
+@app.route('/about')
+def about():
+    return render_template('about.html')
+
+
+@app.route('/order_history')
+def order_history():
+    return render_template('order_history.html')
+
+
+@app.route('/invoices')
+def invoices():
+    return render_template('invoices.html')
+
+
 @app.route('/add_to_cart', methods=['POST'])
 def add_to_cart():
     flower = request.form['flower']

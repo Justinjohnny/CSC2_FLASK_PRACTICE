@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Bloom &amp; Stem Flowers{% endblock %}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='static/css/style.css') }}">
+</head>
+<body>
+    <header class="site-header">
+        <a class="brand" href="{{ url_for('index') }}#home" aria-label="Bloom and Stem home">
+            <span class="brand-mark">B</span>
+            <span>Bloom &amp; Stem</span>
+        </a>
+        <nav class="main-nav" aria-label="Main navigation">
+            <a href="{{ url_for('index') }}">Home</a>
+            <a href="{{ url_for('index') }}#flowers">Flowers</a>
+            <a href="{{ url_for('order_history') }}">Order History</a>
+            <a href="{{ url_for('invoices') }}">Invoice</a>
+            <a href="{{ url_for('about') }}">About</a>
+        </nav>
+    </header>
+
+    <main id="home">
+        {% block content %}{% endblock %}
+    </main>
+
+    <footer class="site-footer">
+        <span>Bloom &amp; Stem Flowers</span>
+        <span>Fresh bouquets made daily.</span>
+    </footer>
+</body>
+</html>
