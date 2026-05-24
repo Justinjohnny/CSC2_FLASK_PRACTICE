@@ -1,0 +1,18 @@
+{
+  "Ribbon": {
+    "price": 2,
+    "description": "A satin ribbon tied around the bouquet."
+  },
+  "Specialty Wrapping Paper": {
+    "price": 5,
+    "description": "Premium paper for a polished gift wrap."
+  },
+  "Personalised Note": {
+    "price": 3,
+    "description": "A handwritten message card."
+  },
+  "Delivery": {
+    "price": 10,
+    "description": "Local delivery for your flower order."
+  }
+}

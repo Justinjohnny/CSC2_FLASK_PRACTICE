@@ -1,0 +1,46 @@
+<svg width="780" height="620" viewBox="0 0 780 620" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="title desc">
+  <title id="title">Colorful flower bouquet</title>
+  <desc id="desc">A bright illustrated bouquet with roses, tulips, lilies, leaves, and ribbon.</desc>
+  <rect x="0" y="0" width="780" height="620" rx="44" fill="#F8EFE6"/>
+  <circle cx="185" cy="120" r="76" fill="#F1C7B7"/>
+  <circle cx="620" cy="158" r="92" fill="#D9E7D0"/>
+  <circle cx="595" cy="486" r="108" fill="#F0D47F"/>
+  <path d="M326 213C278 284 227 378 202 519" stroke="#668F6A" stroke-width="13" stroke-linecap="round"/>
+  <path d="M372 198C347 285 332 386 339 526" stroke="#6E9A72" stroke-width="13" stroke-linecap="round"/>
+  <path d="M447 223C458 310 447 410 407 535" stroke="#668F6A" stroke-width="13" stroke-linecap="round"/>
+  <path d="M285 295C237 280 206 295 186 330C232 344 265 334 285 295Z" fill="#7CAB77"/>
+  <path d="M420 318C471 286 516 290 555 331C505 362 461 358 420 318Z" fill="#86B783"/>
+  <path d="M349 389C300 360 256 363 221 403C271 431 314 426 349 389Z" fill="#7CAB77"/>
+  <path d="M394 467C446 442 488 450 520 494C467 517 426 508 394 467Z" fill="#86B783"/>
+  <g transform="translate(245 110)">
+    <circle cx="73" cy="77" r="46" fill="#D84454"/>
+    <circle cx="45" cy="50" r="30" fill="#EA6470"/>
+    <circle cx="105" cy="49" r="31" fill="#C93649"/>
+    <circle cx="47" cy="105" r="30" fill="#C93649"/>
+    <circle cx="107" cy="105" r="31" fill="#EA6470"/>
+    <circle cx="76" cy="78" r="26" fill="#8F2731"/>
+  </g>
+  <g transform="translate(405 110)">
+    <path d="M93 20C130 54 126 105 89 138C53 103 56 52 93 20Z" fill="#F2CA41"/>
+    <path d="M35 40C77 57 91 106 68 151C26 132 13 83 35 40Z" fill="#F6D968"/>
+    <path d="M146 42C105 59 91 108 115 153C157 133 169 84 146 42Z" fill="#E8B82F"/>
+    <ellipse cx="91" cy="113" rx="35" ry="44" fill="#D99D2B"/>
+  </g>
+  <g transform="translate(245 278)">
+    <path d="M96 19C137 55 137 113 96 151C54 113 54 55 96 19Z" fill="#FAFBF3"/>
+    <path d="M38 55C83 59 109 99 98 150C51 143 26 105 38 55Z" fill="#F4F0E4"/>
+    <path d="M153 55C108 59 82 99 93 150C140 143 165 105 153 55Z" fill="#FFFDF7"/>
+    <circle cx="96" cy="124" r="21" fill="#E8B54E"/>
+  </g>
+  <g transform="translate(430 292)">
+    <circle cx="63" cy="63" r="38" fill="#E57F98"/>
+    <circle cx="37" cy="44" r="26" fill="#F2A9B9"/>
+    <circle cx="90" cy="43" r="25" fill="#D96284"/>
+    <circle cx="39" cy="82" r="25" fill="#D96284"/>
+    <circle cx="88" cy="83" r="26" fill="#F2A9B9"/>
+    <circle cx="64" cy="63" r="21" fill="#B54469"/>
+  </g>
+  <path d="M228 498C322 533 424 539 536 498L500 618H264L228 498Z" fill="#C85651"/>
+  <path d="M279 515C343 539 417 540 490 515L468 594H302L279 515Z" fill="#F0C1B8"/>
+  <path d="M306 552H467" stroke="#9B3535" stroke-width="18" stroke-linecap="round"/>
+</svg>

@@ -1,0 +1,26 @@
+{
+  "Rose": {
+    "color": "Red",
+    "price": 12.5,
+    "stock": 24,
+    "in_stock": true
+  },
+  "Tulip": {
+    "color": "Yellow",
+    "price": 9.0,
+    "stock": 18,
+    "in_stock": true
+  },
+  "Lily": {
+    "color": "White",
+    "price": 14.0,
+    "stock": 0,
+    "in_stock": false
+  },
+  "Daisy": {
+    "color": "White",
+    "price": 7.5,
+    "stock": 30,
+    "in_stock": true
+  }
+}
