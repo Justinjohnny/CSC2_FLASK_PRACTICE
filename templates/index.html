@@ -59,6 +59,13 @@
                 <p class="eyebrow">Current selection</p>
                 <h2>Flowers in the studio</h2>
             </div>
+            {% with messages = get_flashed_messages() %}
+                {% if messages %}
+                    <div class="flash-message" role="status">
+                        {{ messages[0] }}
+                    </div>
+                {% endif %}
+            {% endwith %}
             <ul class="flower-data-list">
                 {% for flower, details in flowers.items() %}
                     <li>
@@ -66,6 +73,26 @@
                     </li>
                 {% endfor %}
             </ul>
+            <form class="order-form flower-order-form" action="{{ url_for('add_to_cart') }}" method="post">
+                <fieldset>
+                    <legend>Select flowers</legend>
+                    <label for="flower">
+                        Flower
+                        <select name="flower" id="flower">
+                            {% for flower, details in flowers.items() %}
+                                <option value="{{ flower }}">
+                                    {{ flower }} - ${{ details['price'] }}
+                                </option>
+                            {% endfor %}
+                        </select>
+                    </label>
+                    <label for="quantity">
+                        Quantity
+                        <input type="number" name="quantity" id="quantity" value="1" min="1">
+                    </label>
+                    <button type="submit">Add to cart</button>
+                </fieldset>
+            </form>
             <div class="flower-grid">
                 {% for flower, details in flowers.items() %}
                     <article class="flower-card">

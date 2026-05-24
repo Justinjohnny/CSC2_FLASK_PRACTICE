@@ -1,7 +1,7 @@
 import json
 from pathlib import Path
 
-from flask import Flask, render_template
+from flask import Flask, flash, redirect, render_template, request, url_for
 
 
 app = Flask(__name__)
@@ -34,6 +34,16 @@ def index():
         featured_flowers=featured_flowers,
         addons=addons
     )
+
+
+@app.route('/add-to-cart', methods=['POST'])
+def add_to_cart():
+    flower = request.form.get('flower')
+    quantity = request.form.get('quantity', '1')
+
+    flash(f'Added {quantity} x {flower} to your cart.')
+    return redirect(url_for('index'))
+
 
 if __name__ == '__main__':
     app.run(debug=True)

@@ -228,6 +228,35 @@ h3 {
     line-height: 1.8;
 }
 
+.flash-message {
+    margin: 0 0 18px;
+    padding: 14px 16px;
+    color: #fff;
+    background: var(--leaf);
+    border-radius: 8px;
+    font-weight: 850;
+}
+
+.flower-order-form {
+    max-width: 520px;
+    margin-bottom: 28px;
+}
+
+.flower-order-form fieldset {
+    display: grid;
+    gap: 16px;
+    min-width: 0;
+    margin: 0;
+    padding: 0;
+    border: 0;
+}
+
+.flower-order-form legend {
+    color: var(--ink);
+    font-size: 1.15rem;
+    font-weight: 900;
+}
+
 .addon-list {
     display: grid;
     grid-template-columns: repeat(2, minmax(0, 1fr));
