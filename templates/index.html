@@ -87,7 +87,7 @@
                             ${{ '%.2f'|format(details['price']) }} =
                             ${{ '%.2f'|format(details['quantity'] * details['price']) }}
                         </span>
-                        <a href="{{ url_for('remove_from_cart', item=item) }}">Remove</a>
+                        <a class="remove-button" href="{{ url_for('remove_from_cart', item=item) }}">Remove</a>
                     </li>
                 {% endfor %}
             </ul>

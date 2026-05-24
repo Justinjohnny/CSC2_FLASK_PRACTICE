@@ -303,10 +303,35 @@ h3 {
 }
 
 .cart-list a {
-    color: var(--rose);
-    font-weight: 900;
-    text-decoration: underline;
-    text-underline-offset: 3px;
+    flex: 0 0 auto;
+}
+
+.remove-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 38px;
+    padding: 8px 14px;
+    color: #fff;
+    background: var(--rose);
+    border: 1px solid var(--rose);
+    border-radius: 8px;
+    font-size: 0.9rem;
+    font-weight: 850;
+    text-decoration: none;
+    transition: background 160ms ease, border-color 160ms ease, transform 160ms ease;
+}
+
+.remove-button:hover,
+.remove-button:focus-visible {
+    background: #a93d4a;
+    border-color: #a93d4a;
+    transform: translateY(-1px);
+}
+
+.remove-button:focus-visible {
+    outline: 3px solid rgba(200, 77, 92, 0.28);
+    outline-offset: 2px;
 }
 
 .addon-list {
