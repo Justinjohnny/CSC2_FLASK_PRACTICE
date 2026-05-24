@@ -1,7 +1,7 @@
 import json
 from pathlib import Path
 
-from flask import Flask, flash, redirect, render_template, request, url_for
+from flask import Flask, flash, redirect, render_template, request, session, url_for
 
 
 app = Flask(__name__)
@@ -20,9 +20,16 @@ def load_data():
     return flowers, addons
 
 
+def calculate_total(cart):
+    total = sum(item['price'] * item['quantity'] for item in cart.values())
+    return total
+
+
 @app.route('/')
 def index():
     flowers, addons = load_data()
+    cart = session.get('cart', {})
+    total = calculate_total(cart)
     featured_flowers = {
         flower: details
         for flower, details in flowers.items()
@@ -32,16 +39,49 @@ def index():
         'index.html',
         flowers=flowers,
         featured_flowers=featured_flowers,
-        addons=addons
+        addons=addons,
+        cart=cart,
+        total=total
     )
 
 
-@app.route('/add-to-cart', methods=['POST'])
+@app.route('/add_to_cart', methods=['POST'])
 def add_to_cart():
-    flower = request.form.get('flower')
-    quantity = request.form.get('quantity', '1')
+    flower = request.form['flower']
+    quantity = int(request.form['quantity'])
+    flowers, _addons = load_data()
+    cart = session.get('cart', {})
 
-    flash(f'Added {quantity} x {flower} to your cart.')
+    if flower not in flowers:
+        flash('Invalid flower selected.')
+        return redirect(url_for('index'))
+
+    if flower in cart:
+        cart[flower]['quantity'] += quantity
+    else:
+        cart[flower] = {
+            'price': flowers[flower]['price'],
+            'quantity': quantity
+        }
+
+    session['cart'] = cart
+    session.modified = True
+    flash(f'{quantity} {flower}(s) added to cart.')
+    return redirect(url_for('index'))
+
+
+@app.route('/remove_from_cart/<item>')
+def remove_from_cart(item):
+    cart = session.get('cart', {})
+
+    if item in cart:
+        del cart[item]
+        session['cart'] = cart
+        session.modified = True
+        flash(f'Removed all {item.capitalize()} from the cart.')
+    else:
+        flash('Item not found in cart.')
+
     return redirect(url_for('index'))
 
 

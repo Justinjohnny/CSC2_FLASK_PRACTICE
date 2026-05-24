@@ -61,38 +61,59 @@
             </div>
             {% with messages = get_flashed_messages() %}
                 {% if messages %}
-                    <div class="flash-message" role="status">
-                        {{ messages[0] }}
-                    </div>
+                    {% for message in messages %}
+                        <div class="flash-message" role="status">
+                            {{ message }}
+                        </div>
+                    {% endfor %}
                 {% endif %}
             {% endwith %}
             <ul class="flower-data-list">
                 {% for flower, details in flowers.items() %}
                     <li>
-                        {{ flower }} - ${{ details['price'] }} (Stock: {{ details['stock'] }})
+                        {{ flower }} - ${{ '%.2f'|format(details['price']) }} (Stock: {{ details['stock'] }})
                     </li>
                 {% endfor %}
             </ul>
             <form class="order-form flower-order-form" action="{{ url_for('add_to_cart') }}" method="post">
                 <fieldset>
-                    <legend>Select flowers</legend>
-                    <label for="flower">
-                        Flower
-                        <select name="flower" id="flower">
-                            {% for flower, details in flowers.items() %}
-                                <option value="{{ flower }}">
-                                    {{ flower }} - ${{ details['price'] }}
-                                </option>
-                            {% endfor %}
-                        </select>
-                    </label>
-                    <label for="quantity">
-                        Quantity
-                        <input type="number" name="quantity" id="quantity" value="1" min="1">
-                    </label>
+                    <legend>Select Flowers</legend>
+
+                    <label for="flower">Flower</label>
+                    <select name="flower" id="flower">
+                        {% for flower, details in flowers.items() %}
+                            <option value="{{ flower }}">
+                                {{ flower }} - ${{ '%.2f'|format(details['price']) }}
+                            </option>
+                        {% endfor %}
+                    </select>
+
+                    <label for="quantity">Quantity</label>
+                    <input type="number" name="quantity" id="quantity" value="1" min="1">
+
                     <button type="submit">Add to cart</button>
                 </fieldset>
             </form>
+            <div class="cart-panel">
+                <h3>Your Cart</h3>
+                {% if cart %}
+                    <ul class="cart-list">
+                        {% for item, details in cart.items() %}
+                            <li>
+                                <span>
+                                    {{ item }}: {{ '%.2f'|format(details['quantity']) }} x
+                                    ${{ '%.2f'|format(details['price']) }} =
+                                    ${{ '%.2f'|format(details['quantity'] * details['price']) }}
+                                </span>
+                                <a href="{{ url_for('remove_from_cart', item=item) }}">Remove</a>
+                            </li>
+                        {% endfor %}
+                    </ul>
+                    <h4>Total: ${{ '%.2f'|format(total) }}</h4>
+                {% else %}
+                    <p>Your cart is empty.</p>
+                {% endif %}
+            </div>
             <div class="flower-grid">
                 {% for flower, details in flowers.items() %}
                     <article class="flower-card">
